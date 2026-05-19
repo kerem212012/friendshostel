@@ -3,11 +3,6 @@
 .env.local
 .env.*.local
 
-# Dependencies
-node_modules/
-pnpm-lock.yaml
-yarn.lock
-package-lock.json
 
 # Build directories
 dist/
