@@ -34,7 +34,7 @@ COPY . .
 
 # Собираем Strapi или проект
 ENV NODE_ENV=production
-RUN pnpm run build
+RUN NODE_OPTIONS="--max-old-space-size=2048" pnpm run build
 
 
 # -------------------------
