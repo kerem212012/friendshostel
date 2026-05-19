@@ -31,7 +31,7 @@ services:
     restart: unless-stopped
     environment:
       NODE_ENV: production
-      NODE_OPTIONS: "--max-old-space-size=760"
+      NODE_OPTIONS: "--max-old-space-size=2048"
     env_file:
       - ./cms/.env
     depends_on:
@@ -48,8 +48,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.76'
-          memory: 768M
+          cpus: '0.99'
+          memory: 999M
     volumes:
       - ./cms/public/uploads:/app/public/uploads
       - ./var/screens:/app/public/screens
