@@ -48,8 +48,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.99'
-          memory: 999M
+          cpus: '2.05'
+          memory: 2048M
     volumes:
       - ./cms/public/uploads:/app/public/uploads
       - ./var/screens:/app/public/screens
@@ -60,7 +60,7 @@ services:
     restart: unless-stopped
     environment:
       NODE_ENV: production
-      NODE_OPTIONS: "--max-old-space-size=760"
+      NODE_OPTIONS: "--max-old-space-size=2048"
       HOST: 0.0.0.0
       API_URL: "https://admin.friendshostel.ge/api"
       ADMIN_URL: "https://admin.friendshostel.ge"
@@ -75,8 +75,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.76'
-          memory: 768M
+          cpus: '2.05'
+          memory: 2048M
 
   cron_caller:
     build: ./cron-caller
