@@ -1,0 +1,28 @@
+http:
+  routers:
+    friendshostel:
+      rule: "Host(`friendshostel.ge`)"
+      entryPoints:
+        - websecure
+      service: friendshostel-service
+      tls:
+        certResolver: myresolver
+
+    adminfriendshostel:
+      rule: "Host(`admin.friendshostel.ge`)"
+      entryPoints:
+        - websecure
+      service: admin-service
+      tls:
+        certResolver: myresolver
+
+  services:
+    friendshostel-service:
+      loadBalancer:
+        servers:
+          - url: "http://host.docker.internal:3000"
+
+    admin-service:
+      loadBalancer:
+        servers:
+          - url: "http://host.docker.internal:1337"

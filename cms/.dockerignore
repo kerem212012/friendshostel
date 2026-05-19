@@ -1,0 +1,16 @@
+node_modules
+.strapi
+.cache
+.tmp
+.git
+.github
+.DS_Store
+.env
+.env.example
+.env.prod
+.strapi-updater.json
+dist
+npm-debug.log*
+pnpm-debug.log*
+README.md
+Makefile

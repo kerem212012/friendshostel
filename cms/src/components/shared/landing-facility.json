@@ -1,0 +1,30 @@
+{
+  "collectionName": "components_shared_landing_facilities",
+  "info": {
+    "displayName": "LandingFacility",
+    "icon": "eye"
+  },
+  "options": {},
+  "attributes": {
+    "Title": {
+      "type": "string"
+    },
+    "Image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "Color": {
+      "type": "string"
+    },
+    "Sort": {
+      "type": "integer"
+    }
+  },
+  "config": {}
+}

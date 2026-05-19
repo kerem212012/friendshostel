@@ -1,0 +1,114 @@
+services:
+  traefik:
+    image: traefik:v3.6.1
+    container_name: traefik
+    restart: unless-stopped
+    command:
+      - --entryPoints.web.address=:80
+      - --entryPoints.websecure.address=:443
+      - --entryPoints.api.address=:8085
+      - --api.dashboard=true #! close (false) in production
+      - --api.insecure=true #! close (false) in production
+      - --entrypoints.web.http.redirections.entrypoint.to=websecure
+      - --entrypoints.web.http.redirections.entrypoint.scheme=https
+      - --providers.docker=true
+      - --providers.docker.exposedByDefault=false
+      - --certificatesResolvers.myresolver.acme.email=maksfedorov@gmail.com
+      - --certificatesResolvers.myresolver.acme.storage=/letsencrypt/acme.json
+      - --certificatesResolvers.myresolver.acme.httpChallenge.entryPoint=web
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./letsencrypt:/letsencrypt
+    networks:
+      - web
+
+  cms_service:
+    build: ./cms
+    container_name: cms
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      NODE_OPTIONS: "--max-old-space-size=760"
+    env_file:
+      - ./cms/.env
+    depends_on:
+      postgres:
+        condition: service_healthy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.cms.rule=Host(`admin.friendshostel.ge`)"
+      - "traefik.http.routers.cms.entrypoints=websecure"
+      - "traefik.http.routers.cms.tls.certresolver=myresolver"
+      - "traefik.http.services.cms.loadbalancer.server.port=1337"
+    networks:
+      - web
+    deploy:
+      resources:
+        limits:
+          cpus: '0.76'
+          memory: 768M
+    volumes:
+      - ./cms/public/uploads:/app/public/uploads
+      - ./var/screens:/app/public/screens
+
+  front_service:
+    build: ./front
+    container_name: front
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      NODE_OPTIONS: "--max-old-space-size=760"
+      HOST: 0.0.0.0
+      API_URL: "https://admin.friendshostel.ge/api"
+      ADMIN_URL: "https://admin.friendshostel.ge"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.front.rule=Host(`friendshostel.ge`)"
+      - "traefik.http.routers.front.entrypoints=websecure"
+      - "traefik.http.routers.front.tls.certresolver=myresolver"
+      - "traefik.http.services.front.loadbalancer.server.port=3000"
+    networks:
+      - web
+    deploy:
+      resources:
+        limits:
+          cpus: '0.76'
+          memory: 768M
+
+  cron_caller:
+    build: ./cron-caller
+    container_name: cron_caller
+    network_mode: "host"
+    depends_on:
+      cms_service:
+        condition: service_started
+    environment:
+      API_TOKEN: d92f91c47ecd3cdf2f6f51bb15cc35c9f1193149c81805e7efc9baf9da2332d17cdd56a7405f946a32e5555d9930cd04dbdd41f1a0040ab186af33e6e6ce126440d17cce4e742148290249fee4308ca0f1e4988b16c0d9ac983346aed1522ba2abca7182e3f9275c4af5c049a12721a2d059e9daf85b8cfd2d8b6b58d229493a
+
+  postgres:
+    image: postgres:16
+    container_name: postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: friends
+      POSTGRES_PASSWORD: friends
+      POSTGRES_DB: friends
+    volumes:
+      - ./var/pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U friends -d friends"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+    networks:
+      - web
+    ports:
+      - "54333:5432"
+
+networks:
+  web:
+    driver: bridge

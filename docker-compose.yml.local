@@ -1,0 +1,63 @@
+services:
+
+  cms_service:
+    restart: unless-stopped
+    build: ./cms
+    container_name: cms
+    environment:
+      NODE_ENV: production
+    depends_on:
+      - postgres
+    env_file:
+      - ./cms/.env
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.strapi.rule=Host(`api.friendshostel.ge`)"
+
+      - "traefik.http.routers.strapi.entrypoints=web"
+      - "traefik.http.services.strapi.loadbalancer.server.port=1337"
+    ports:
+      - "1337:1337"
+    networks:
+      - web
+
+  front_service:
+    restart: unless-stopped
+    build: ./front
+    container_name: front
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.strapi.rule=Host(`friendshostel.ge`)"
+
+      - "traefik.http.routers.nuxt.entrypoints=web"
+      - "traefik.http.services.strapi.loadbalancer.server.port=3000"
+    depends_on:
+      - postgres
+    ports:
+      - "3000:3000"
+    networks:
+      - web
+
+  postgres:
+    image: postgres:16
+    restart: unless-stopped
+    ports:
+      - "54333:5432"
+    environment:
+      POSTGRES_USER: friends
+      POSTGRES_PASSWORD: friends
+      POSTGRES_DB: friends
+    volumes:
+      - ./var/pg:/var/lib/postgresql/data
+    networks:
+      - web
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U friends -d friends" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+
+networks:
+  web:
+    external: false

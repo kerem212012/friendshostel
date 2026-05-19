@@ -1,0 +1,58 @@
+{
+  "ok": 1,
+  "room_id": "36",
+  "from": 20412,
+  "to": 20416,
+  "availability_arr": {
+    "10": {
+      "20412": {
+        "availability_3": 8,
+        "class_underline": "",
+        "availability": 8,
+        "availability_2": 8,
+        "day_id": 20412,
+        "category_id": 10,
+        "date": "2025-11-20"
+      },
+      "20413": {
+        "availability_3": 8,
+        "class_underline": "",
+        "availability": 8,
+        "availability_2": 8,
+        "day_id": 20413,
+        "category_id": 10,
+        "date": "2025-11-21"
+      },
+      "20414": {
+        "availability_3": 8,
+        "class_underline": "",
+        "availability": 8,
+        "availability_2": 8,
+        "day_id": 20414,
+        "category_id": 10,
+        "date": "2025-11-22"
+      },
+      "20415": {
+        "availability_3": 8,
+        "class_underline": "",
+        "availability": 8,
+        "availability_2": 8,
+        "day_id": 20415,
+        "category_id": 10,
+        "date": "2025-11-23"
+      },
+      "20416": {
+        "availability_3": 9,
+        "class_underline": "",
+        "availability": 9,
+        "availability_2": 9,
+        "day_id": 20416,
+        "category_id": 10,
+        "date": "2025-11-24"
+      }
+    }
+  },
+  "res_days_close_from": 20412,
+  "res_days_close_to": 20415,
+  "htmldiv": "\r\n<div id=\"res_block_3802\" class=\"calendar_item\" resid=\"3802\" \r\nstatus=\"1\" style=\"position: absolute; margin-left: -4px;margin-top: 0px; box-shadow: none; width: -734830px;\" data-toggle=\"tooltip\" data-container=\"body\" data-boundary=\"scrollParent\" data-placement=\"auto\" data-html=\"true\"\r\n        \t\t\t\t\t\t\t\t\t\tdata-title=\"&lt;div style=&quot;margin:0; padding:0&quot;&gt;\u0417\u0430\u043a\u0430\u0437 \u21163802 (\u0411\u0440\u043e\u043d\u044c), \u041c\u043e\u0434\u0443\u043b\u044c \u0431\u0440\u043e\u043d\u0438\u0440\u043e\u0432\u0430\u043d\u0438\u044f&lt;\/div&gt;&lt;div style=&quot;margin:0; padding:0&quot;&gt;{caption_guest}: guest test&lt;\/div&gt;&lt;div style=&quot;margin:0; padding:0&quot;&gt;\u0417\u0430\u0435\u0437\u0434: 2025-11-20&lt;\/div&gt;&lt;div style=&quot;margin:0; padding:0&quot;&gt;\u0412\u044b\u0435\u0437\u0434: 2025-11-24&lt;\/div&gt;&lt;div style=&quot;margin:0; padding:0&quot;&gt;\u0414\u0430\u0442\u0430 \u0441\u043e\u0437\u0434\u0430\u043d\u0438\u044f: 2025-11-06 18:04:20&lt;\/div&gt;&lt;div style=&quot;margin:0; padding:0&quot;&gt;\u0414\u0430\u0442\u0430 \u043c\u043e\u0434\u0438\u0444\u0438\u043a\u0430\u0446\u0438\u0438: 0000-00-00 00:00:00&lt;\/div&gt;&lt;div style=&quot;margin:0; padding:0&quot;&gt;&lt;\/div&gt;&lt;div style=&quot;margin:0; padding:0&quot;&gt;\u0411\u0430\u043b\u0430\u043d\u0441: -80.00, &lt;\/div&gt;&lt;div style=&quot;margin:0; padding:0&quot;&gt;\u0422\u0435\u043b\u0435\u0444\u043e\u043d: +79999999999&lt;\/div&gt;&lt;div style=&quot;margin:0; padding:0&quot;&gt;Email: test@test.com&lt;\/div&gt;&lt;div style=&quot;margin:0; padding:0&quot;&gt;\u041e\u0442\u0432\u0435\u0442\u0441\u0442\u0432\u0435\u043d\u043d\u044b\u0439: \u041c\u0430\u043a\u0441 \u0424\u0435\u0434\u043e\u0440\u043e\u0444&lt;\/div&gt;&lt;div style=&quot;margin:0; padding:0&quot;&gt;&lt;div&gt;\u041a\u043e\u043c\u043c\u0435\u043d\u0442\u0430\u0440\u0438\u0439: tttyyy&lt;br&gt;&lt;\/div&gt;&lt;\/div&gt;\">\r\n\r\n                <div class=\"calendar_item-cover animation-box-style2\" style=\"background-color:#8dc9dc\">\r\n                \t<div id=\"set_marker_3802\"><div class=\"marker_left\" style=\"background-color:#00d5ff;\"><\/div><\/div>\r\n\t\t\t\t\t<div class=\"calendar_booking_nam\">#:3802, guest test<\/div>\r\n                    <div class=\"calendar_booking_info\">\u041c\u043e\u0434\u0443\u043b\u044c \u0431\u0440\u043e\u043d\u0438\u0440\u043e\u0432\u0430\u043d\u0438\u044f<\/div>\r\n                    <div class=\"early_check-in\">\r\n                    \t<span style=\"background-color:rgb(67, 118, 170);\"><\/span>\r\n                    <\/div>\r\n                    <div class=\"late_check-out\">\r\n                    \t<span style=\"background-color:rgb(67, 118, 170);\"><\/span>\r\n                    <\/div>\r\n\r\n                    <div class=\"balance_negative\">\r\n                    \t<span style=\"background-color:rgb(173, 55, 69);\">-80.00<\/span>\r\n                    <\/div>\r\n                <\/div>\r\n\r\n\t\t\t<\/div>\r\n"
+}

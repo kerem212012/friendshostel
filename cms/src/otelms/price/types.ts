@@ -1,0 +1,3 @@
+
+export const PRICE_TYPE_WITHOUT_BREAKFAST = 16
+export const PRICE_TYPE_BREAKFAST = 17
