@@ -1,4 +1,25 @@
 services:
+  traefik:
+    image: traefik:v3.6.1
+    container_name: traefik
+    restart: unless-stopped
+    command:
+      - --entryPoints.web.address=:80
+      - --entryPoints.websecure.address=:443
+      - --api.dashboard=true
+      - --api.insecure=true
+      - --providers.docker=true
+      - --providers.docker.exposedByDefault=false
+      - --providers.file.filename=/etc/traefik/traefik-dynamic.yml
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8085:8085"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./traefik/traefik-dynamic.yml:/etc/traefik/traefik-dynamic.yml:ro
+    networks:
+      - web
 
   cms_service:
     restart: unless-stopped
@@ -12,10 +33,9 @@ services:
       - ./cms/.env
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.strapi.rule=Host(`api.friendshostel.ge`)"
-
-      - "traefik.http.routers.strapi.entrypoints=web"
-      - "traefik.http.services.strapi.loadbalancer.server.port=1337"
+      - "traefik.http.routers.cms.rule=Host(`api.friendshostel.ge`)"
+      - "traefik.http.routers.cms.entrypoints=web"
+      - "traefik.http.services.cms.loadbalancer.server.port=1337"
     ports:
       - "1337:1337"
     networks:
@@ -27,10 +47,9 @@ services:
     container_name: front
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.strapi.rule=Host(`friendshostel.ge`)"
-
-      - "traefik.http.routers.nuxt.entrypoints=web"
-      - "traefik.http.services.strapi.loadbalancer.server.port=3000"
+      - "traefik.http.routers.front.rule=Host(`friendshostel.ge`)"
+      - "traefik.http.routers.front.entrypoints=web"
+      - "traefik.http.services.front.loadbalancer.server.port=3000"
     depends_on:
       - postgres
     ports:

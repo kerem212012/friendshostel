@@ -9,10 +9,9 @@ services:
       - --entryPoints.api.address=:8085
       - --api.dashboard=true #! close (false) in production
       - --api.insecure=true #! close (false) in production
-      - --entrypoints.web.http.redirections.entrypoint.to=websecure
-      - --entrypoints.web.http.redirections.entrypoint.scheme=https
       - --providers.docker=true
       - --providers.docker.exposedByDefault=false
+      - --providers.file.filename=/etc/traefik/traefik-dynamic.yml
       - --certificatesResolvers.myresolver.acme.email=maksfedorov@gmail.com
       - --certificatesResolvers.myresolver.acme.storage=/letsencrypt/acme.json
       - --certificatesResolvers.myresolver.acme.httpChallenge.entryPoint=web
@@ -22,6 +21,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./letsencrypt:/letsencrypt
+      - ./traefik/traefik-dynamic.yml:/etc/traefik/traefik-dynamic.yml:ro
     networks:
       - web
 

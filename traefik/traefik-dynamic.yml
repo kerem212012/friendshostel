@@ -1,0 +1,68 @@
+http:
+  routers:
+    # Catch-all router for ACME challenges - no redirect
+    acme-challenge:
+      rule: "PathPrefix(`/.well-known/acme-challenge/`)"
+      entryPoints:
+        - web
+      service: dummy-service
+      priority: 1000
+
+    # Redirect HTTP to HTTPS for friendshostel.ge
+    friendshostel-redirect:
+      rule: "Host(`friendshostel.ge`)"
+      entryPoints:
+        - web
+      middlewares:
+        - redirect-https
+      service: dummy-service
+      priority: 100
+
+    # Redirect HTTP to HTTPS for admin.friendshostel.ge
+    admin-redirect:
+      rule: "Host(`admin.friendshostel.ge`)"
+      entryPoints:
+        - web
+      middlewares:
+        - redirect-https
+      service: dummy-service
+      priority: 100
+
+    # HTTPS routers (from docker labels)
+    friendshostel:
+      rule: "Host(`friendshostel.ge`)"
+      entryPoints:
+        - websecure
+      service: friendshostel-service
+      tls:
+        certResolver: myresolver
+
+    admin:
+      rule: "Host(`admin.friendshostel.ge`)"
+      entryPoints:
+        - websecure
+      service: admin-service
+      tls:
+        certResolver: myresolver
+
+  middlewares:
+    redirect-https:
+      redirectScheme:
+        scheme: https
+        permanent: true
+
+  services:
+    dummy-service:
+      loadBalancer:
+        servers:
+          - url: "http://localhost"
+
+    friendshostel-service:
+      loadBalancer:
+        servers:
+          - url: "http://host.docker.internal:3000"
+
+    admin-service:
+      loadBalancer:
+        servers:
+          - url: "http://host.docker.internal:1337"
