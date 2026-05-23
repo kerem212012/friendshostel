@@ -53,6 +53,12 @@ services:
     volumes:
       - ./cms/public/uploads:/app/public/uploads
       - ./var/screens:/app/public/screens
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:1337/admin"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 60s
 
   front_service:
     build: ./front
@@ -64,6 +70,9 @@ services:
       HOST: 0.0.0.0
       API_URL: "https://admin.friendshostel.ge/api"
       ADMIN_URL: "https://admin.friendshostel.ge"
+    depends_on:
+      cms_service:
+        condition: service_healthy
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.front.rule=Host(`friendshostel.ge`)"
@@ -77,14 +86,22 @@ services:
         limits:
           cpus: '2.05'
           memory: 2048M
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
 
   cron_caller:
     build: ./cron-caller
     container_name: cron_caller
-    network_mode: "host"
+    restart: unless-stopped
+    networks:
+      - web
     depends_on:
       cms_service:
-        condition: service_started
+        condition: service_healthy
     environment:
       API_TOKEN: d92f91c47ecd3cdf2f6f51bb15cc35c9f1193149c81805e7efc9baf9da2332d17cdd56a7405f946a32e5555d9930cd04dbdd41f1a0040ab186af33e6e6ce126440d17cce4e742148290249fee4308ca0f1e4988b16c0d9ac983346aed1522ba2abca7182e3f9275c4af5c049a12721a2d059e9daf85b8cfd2d8b6b58d229493a
 
