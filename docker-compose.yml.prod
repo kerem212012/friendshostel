@@ -12,9 +12,15 @@ services:
       - --providers.docker=true
       - --providers.docker.exposedByDefault=false
       - --providers.file.filename=/etc/traefik/traefik-dynamic.yml
-      - --certificatesResolvers.myresolver.acme.email=maksfedorov@gmail.com
+      - --certificatesResolvers.myresolver.acme.email=${ACME_EMAIL}
       - --certificatesResolvers.myresolver.acme.storage=/letsencrypt/acme.json
-      - --certificatesResolvers.myresolver.acme.httpChallenge.entryPoint=web
+      - --certificatesResolvers.myresolver.acme.dnsChallenge=true
+      - --certificatesResolvers.myresolver.acme.dnsChallenge.provider=cloudflare
+      - --certificatesResolvers.myresolver.acme.dnsChallenge.disablePropagationCheck=true
+    environment:
+      - CLOUDFLARE_DNS_API_TOKEN=${CLOUDFLARE_DNS_API_TOKEN}
+    env_file:
+      - .env.prod
     ports:
       - "80:80"
       - "443:443"
