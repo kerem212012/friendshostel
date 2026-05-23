@@ -19,8 +19,6 @@ services:
       - --certificatesResolvers.myresolver.acme.dnsChallenge.disablePropagationCheck=true
     environment:
       - CLOUDFLARE_DNS_API_TOKEN=${CLOUDFLARE_DNS_API_TOKEN}
-    env_file:
-      - .env.prod
     ports:
       - "80:80"
       - "443:443"
